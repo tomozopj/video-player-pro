@@ -4,6 +4,7 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
         const url = URL.createObjectURL(file);
         const player = document.getElementById('player');
         player.src = url;
+        player.style.display = 'block'; // ウィンドウを表示させる
         player.play();
     }
 });
