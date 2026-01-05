@@ -1,15 +1,25 @@
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
+    const player = document.getElementById('player');
+
     if (file) {
-        // 動画ファイルのURLを作成
-        const url = URL.createObjectURL(file);
-        const player = document.getElementById('player');
+        console.log("ファイルを受け取りました:", file.name);
         
-        // 動画をセットして再生
+        // 古いURLがあれば解放（メモリ節約）
+        if (player.src) {
+            URL.revokeObjectURL(player.src);
+        }
+
+        const url = URL.createObjectURL(file);
         player.src = url;
-        player.load(); // 読み込み直し
-        player.play().catch(error => {
-            console.error("再生エラー:", error);
-        });
+
+        // 動画の読み込みを強制
+        player.load();
+        
+        // 準備ができたら再生
+        player.oncanplay = () => {
+            console.log("再生準備完了");
+            player.play();
+        };
     }
 });
