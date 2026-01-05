@@ -1,10 +1,13 @@
 {
   "manifest_version": 3,
   "name": "ARM Video Player Pro",
-  "version": "0.1.0",
-  "description": "Lenovo Chromebook Plusに最適化した動画プレイヤー",
-  "action": {
-    "default_popup": "index.html"
+  "version": "0.2.0",
+  "description": "Side Panel型の高機能プレイヤー",
+  "permissions": ["sidePanel"],
+  "side_panel": {
+    "default_path": "index.html"
   },
-  "permissions": ["storage"]
+  "action": {
+    "default_title": "プレイヤーを開く"
+  }
 }

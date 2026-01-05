@@ -3,23 +3,11 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
     const player = document.getElementById('player');
 
     if (file) {
-        console.log("ファイルを受け取りました:", file.name);
-        
-        // 古いURLがあれば解放（メモリ節約）
-        if (player.src) {
-            URL.revokeObjectURL(player.src);
-        }
-
+        if (player.src) URL.revokeObjectURL(player.src);
         const url = URL.createObjectURL(file);
         player.src = url;
-
-        // 動画の読み込みを強制
+        player.style.display = 'block';
         player.load();
-        
-        // 準備ができたら再生
-        player.oncanplay = () => {
-            console.log("再生準備完了");
-            player.play();
-        };
+        player.play();
     }
 });
