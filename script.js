@@ -27,7 +27,19 @@ document.addEventListener('keydown', (e) => {
         case 'ArrowLeft': // 左キーで5秒戻る
             player.currentTime -= 5;
             break;
-        case 'KeyF': // Fキーで全画面（サイドパネル内）
+        case 'ArrowUp': // 音量を上げる (10%刻み)
+            e.preventDefault(); // 画面がスクロールしてしまうのを防ぐ
+            // 1以上にならないように制御
+            player.volume = Math.min(player.volume + 0.1, 1);
+            console.log("音量:", Math.round(player.volume * 100) + "%");
+            break;
+        case 'ArrowDown': // 音量を下げる (10%刻み)
+            e.preventDefault();
+            // 0以下にならないように制御
+            player.volume = Math.max(player.volume - 0.1, 0);
+            console.log("音量:", Math.round(player.volume * 100) + "%");
+            break;
+            case 'KeyF': // Fキーで全画面（サイドパネル内）
             if (player.requestFullscreen) player.requestFullscreen();
             break;
     }
