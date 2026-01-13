@@ -46,5 +46,13 @@ document.addEventListener('keydown', (e) => {
                 player.requestPictureInPicture();
             }
             break;
-    }
+        case 'BracketRight': // 「]」キーで加速
+            player.playbackRate = Math.min(player.playbackRate + 0.25, 2.0);
+            console.log("再生速度:", player.playbackRate + "x");
+            break;
+        case 'BracketLeft': // 「[」キーで減速
+            player.playbackRate = Math.max(player.playbackRate - 0.25, 0.5);
+            console.log("再生速度:", player.playbackRate + "x");
+            break;
+        }
 });
