@@ -39,8 +39,12 @@ document.addEventListener('keydown', (e) => {
             player.volume = Math.max(player.volume - 0.1, 0);
             console.log("音量:", Math.round(player.volume * 100) + "%");
             break;
-            case 'KeyF': // Fキーで全画面（サイドパネル内）
-            if (player.requestFullscreen) player.requestFullscreen();
+        case 'KeyP': // Pキーでピクチャー・イン・ピクチャー
+            if (document.pictureInPictureElement) {
+                document.exitPictureInPicture();
+            } else if (document.pictureInPictureEnabled) {
+                player.requestPictureInPicture();
+            }
             break;
     }
 });
