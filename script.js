@@ -56,3 +56,36 @@ document.addEventListener('keydown', (e) => {
             break;
         }
 });
+// ▼▼▼ シークバー制御の追加コード ▼▼▼
+
+const seekBar = document.getElementById('seekBar');
+const currentTimeDisplay = document.getElementById('currentTime');
+const durationTimeDisplay = document.getElementById('durationTime');
+
+// 1. 動画の長さを取得してバーの最大値を設定
+player.addEventListener('loadedmetadata', () => {
+    seekBar.max = player.duration;
+    durationTimeDisplay.textContent = formatTime(player.duration);
+});
+
+// 2. 再生位置に合わせてバーと時間を更新
+player.addEventListener('timeupdate', () => {
+    // ユーザーがバーを操作している間は、バーの自動更新を止める（カクつき防止）
+    if (!seekBar.matches(':active')) {
+        seekBar.value = player.currentTime;
+    }
+    currentTimeDisplay.textContent = formatTime(player.currentTime);
+});
+
+// 3. バーをドラッグした時に再生位置を変更（シーク）
+seekBar.addEventListener('input', () => {
+    player.currentTime = seekBar.value;
+});
+
+// 時間（秒）を "分:秒" の形式に変換する関数
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}

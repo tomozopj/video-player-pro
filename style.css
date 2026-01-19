@@ -1,0 +1,31 @@
+/* 画面全体を黒背景にし、スクロールバーを消す */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    height: 100vh; /* 画面の高さを100%に */
+    overflow: hidden; /* はみ出しを防止 */
+}
+
+/* 動画と操作パネルを縦に並べるコンテナ */
+.video-container {
+    display: flex;
+    flex-direction: column; /* 縦並び */
+    height: 100%; /* 高さいっぱい */
+}
+
+/* 動画本体のレイアウト */
+video {
+    flex-grow: 1; /* 余ったスペースを全て動画に使う */
+    width: 100%;
+    min-height: 0; /* これが重要！縮小を許可する設定 */
+    object-fit: contain; /* アスペクト比を保って全体を表示 */
+}
+
+/* 操作パネル（シークバーなど） */
+.controls {
+    flex-shrink: 0; /* 縮ませない（常に表示） */
+    padding: 10px;
+    background-color: #1a1a1a; /* パネル部分の背景色 */
+}
