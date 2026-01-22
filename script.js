@@ -11,10 +11,24 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
         player.play();
     }
 });
-// キーボード操作の追加
+// キーボード操作
 document.addEventListener('keydown', (e) => {
-    const player = document.getElementById('player');
-    if (!player.src) return; // 動画がないときは何もしない
+    // 入力フォームなどで誤作動しないようにする
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+    // ▼▼▼ 修正ポイント: 配列依存をなくすため 'e.key' (文字) で判定 ▼▼▼
+    
+    if (e.key === ']') { // どのキーボードでも「]」が入力されたら加速
+        player.playbackRate = Math.min(player.playbackRate + 0.25, 2.0);
+        showOSD(`Speed: ${player.playbackRate}x`);
+        return; 
+    }
+    
+    if (e.key === '[') { // どのキーボードでも「[」が入力されたら減速
+        player.playbackRate = Math.max(player.playbackRate - 0.25, 0.5);
+        showOSD(`Speed: ${player.playbackRate}x`);
+        return; 
+    }
 
     switch (e.code) {
         case 'Space': // スペースキーで再生・一時停止
@@ -32,14 +46,12 @@ document.addEventListener('keydown', (e) => {
             // 1以上にならないように制御
             player.volume = Math.min(player.volume + 0.1, 1);
             showOSD(`Volume: ${Math.round(player.volume * 100)}%`); // ★追加
-            console.log("音量:", Math.round(player.volume * 100) + "%");
             break;
         case 'ArrowDown': // 音量を下げる (10%刻み)
             e.preventDefault();
             // 0以下にならないように制御
             player.volume = Math.max(player.volume - 0.1, 0);
             showOSD(`Volume: ${Math.round(player.volume * 100)}%`); // ★追加
-            console.log("音量:", Math.round(player.volume * 100) + "%");
             break;
         case 'KeyP': // Pキーでピクチャー・イン・ピクチャー
             if (document.pictureInPictureElement) {
@@ -47,16 +59,6 @@ document.addEventListener('keydown', (e) => {
             } else if (document.pictureInPictureEnabled) {
                 player.requestPictureInPicture();
             }
-            break;
-        case 'Backslash': // 「]」キー (加速)
-            player.playbackRate = Math.min(player.playbackRate + 0.25, 2.0);
-            showOSD(`Speed: ${player.playbackRate}x`);
-            break;
-
-        case 'BracketRight': // 「[」キー (減速)
-        // ※JIS配列ではここが「[」になります
-            player.playbackRate = Math.max(player.playbackRate - 0.25, 0.5);
-            showOSD(`Speed: ${player.playbackRate}x`);
             break;
         }
 });
