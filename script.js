@@ -111,3 +111,23 @@ function formatTime(seconds) {
     const sec = Math.floor(seconds % 60);
     return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 }
+// ▼▼▼ 追加: クリックで再生/一時停止 & OSD表示 ▼▼▼
+
+// 1. 動画画面をクリックしたら 再生/停止 を切り替える
+player.addEventListener('click', () => {
+    if (player.paused) {
+        player.play();
+    } else {
+        player.pause();
+    }
+});
+
+// 2. 再生が始まったら「▶」を表示
+player.addEventListener('play', () => {
+    showOSD('▶');
+});
+
+// 3. 一時停止したら「⏸」を表示
+player.addEventListener('pause', () => {
+    showOSD('⏸');
+});
