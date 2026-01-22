@@ -29,3 +29,27 @@ video {
     padding: 10px;
     background-color: #1a1a1a; /* パネル部分の背景色 */
 }
+
+/* ▼▼▼ OSD (ステータス表示) 用スタイル ▼▼▼ */
+#osd {
+    position: absolute;
+    top: 10%; /* 画面上部に配置（中央だと動画の邪魔になる場合があるため） */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7); /* 半透明の黒背景 */
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: bold;
+    pointer-events: none; /* マウス入力を透過 */
+    opacity: 0; /* 通常は非表示 */
+    transition: opacity 0.2s ease-out; /* フェードアニメーション */
+    z-index: 100;
+}
+
+/* OSDの配置基準点を設定 */
+.video-container {
+    position: relative;
+}

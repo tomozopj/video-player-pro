@@ -31,12 +31,14 @@ document.addEventListener('keydown', (e) => {
             e.preventDefault(); // 画面がスクロールしてしまうのを防ぐ
             // 1以上にならないように制御
             player.volume = Math.min(player.volume + 0.1, 1);
+            showOSD(`Volume: ${Math.round(player.volume * 100)}%`); // ★追加
             console.log("音量:", Math.round(player.volume * 100) + "%");
             break;
         case 'ArrowDown': // 音量を下げる (10%刻み)
             e.preventDefault();
             // 0以下にならないように制御
             player.volume = Math.max(player.volume - 0.1, 0);
+            showOSD(`Volume: ${Math.round(player.volume * 100)}%`); // ★追加
             console.log("音量:", Math.round(player.volume * 100) + "%");
             break;
         case 'KeyP': // Pキーでピクチャー・イン・ピクチャー
@@ -48,10 +50,12 @@ document.addEventListener('keydown', (e) => {
             break;
         case 'BracketRight': // 「]」キーで加速
             player.playbackRate = Math.min(player.playbackRate + 0.25, 2.0);
+            showOSD(`Speed: ${player.playbackRate}x`); // ★追加
             console.log("再生速度:", player.playbackRate + "x");
             break;
         case 'BracketLeft': // 「[」キーで減速
             player.playbackRate = Math.max(player.playbackRate - 0.25, 0.5);
+            showOSD(`Speed: ${player.playbackRate}x`); // ★追加
             console.log("再生速度:", player.playbackRate + "x");
             break;
         }
@@ -61,6 +65,22 @@ document.addEventListener('keydown', (e) => {
 const seekBar = document.getElementById('seekBar');
 const currentTimeDisplay = document.getElementById('currentTime');
 const durationTimeDisplay = document.getElementById('durationTime');
+const osd = document.getElementById('osd');
+let osdTimeout;
+
+// OSDを表示して自動で消す関数
+function showOSD(message) {
+    osd.textContent = message;
+    osd.style.opacity = '1';
+    
+    // 既存のタイマーをリセット
+    if (osdTimeout) clearTimeout(osdTimeout);
+    
+    // 1.5秒後にフェードアウト
+    osdTimeout = setTimeout(() => {
+        osd.style.opacity = '0';
+    }, 1500);
+}
 
 // 1. 動画の長さを取得してバーの最大値を設定
 player.addEventListener('loadedmetadata', () => {
