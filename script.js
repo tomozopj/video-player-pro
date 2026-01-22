@@ -48,15 +48,15 @@ document.addEventListener('keydown', (e) => {
                 player.requestPictureInPicture();
             }
             break;
-        case 'BracketRight': // 「]」キーで加速
+        case 'Backslash': // 「]」キー (加速)
             player.playbackRate = Math.min(player.playbackRate + 0.25, 2.0);
-            showOSD(`Speed: ${player.playbackRate}x`); // ★追加
-            console.log("再生速度:", player.playbackRate + "x");
+            showOSD(`Speed: ${player.playbackRate}x`);
             break;
-        case 'BracketLeft': // 「[」キーで減速
+
+        case 'BracketRight': // 「[」キー (減速)
+        // ※JIS配列ではここが「[」になります
             player.playbackRate = Math.max(player.playbackRate - 0.25, 0.5);
-            showOSD(`Speed: ${player.playbackRate}x`); // ★追加
-            console.log("再生速度:", player.playbackRate + "x");
+            showOSD(`Speed: ${player.playbackRate}x`);
             break;
         }
 });
