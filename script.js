@@ -1,4 +1,4 @@
-document.getElementById('fileInput').addEventListener('change', function(e) {
+document.getElementById('fileInput').addEventListener('change', function (e) {
     const file = e.target.files[0];
     const player = document.getElementById('player');
 
@@ -17,17 +17,17 @@ document.addEventListener('keydown', (e) => {
     if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
     // ▼▼▼ 修正ポイント: 配列依存をなくすため 'e.key' (文字) で判定 ▼▼▼
-    
+
     if (e.key === ']') { // どのキーボードでも「]」が入力されたら加速
         player.playbackRate = Math.min(player.playbackRate + 0.25, 2.0);
-        showOSD(`Speed: ${player.playbackRate}x`);
-        return; 
+        showOSD(`⚡ ${player.playbackRate.toFixed(2)}x`);
+        return;
     }
-    
+
     if (e.key === '[') { // どのキーボードでも「[」が入力されたら減速
         player.playbackRate = Math.max(player.playbackRate - 0.25, 0.5);
-        showOSD(`Speed: ${player.playbackRate}x`);
-        return; 
+        showOSD(`⚡ ${player.playbackRate.toFixed(2)}x`);
+        return;
     }
 
     switch (e.code) {
@@ -60,7 +60,7 @@ document.addEventListener('keydown', (e) => {
                 player.requestPictureInPicture();
             }
             break;
-        }
+    }
 });
 // ▼▼▼ シークバー制御の追加コード ▼▼▼
 
@@ -70,17 +70,25 @@ const durationTimeDisplay = document.getElementById('durationTime');
 const osd = document.getElementById('osd');
 let osdTimeout;
 
-// OSDを表示して自動で消す関数
+// OSDを表示して自動で消す関数（モダンアニメーション対応）
 function showOSD(message) {
     osd.textContent = message;
-    osd.style.opacity = '1';
-    
+
+    // 既存のアニメーションクラスをリセット
+    osd.classList.remove('show', 'hide');
+
+    // 次のフレームで表示アニメーションを開始（CSSアニメーションのリスタート）
+    requestAnimationFrame(() => {
+        osd.classList.add('show');
+    });
+
     // 既存のタイマーをリセット
     if (osdTimeout) clearTimeout(osdTimeout);
-    
-    // 1.5秒後にフェードアウト
+
+    // 1.5秒後にフェードアウトアニメーション開始
     osdTimeout = setTimeout(() => {
-        osd.style.opacity = '0';
+        osd.classList.remove('show');
+        osd.classList.add('hide');
     }, 1500);
 }
 
