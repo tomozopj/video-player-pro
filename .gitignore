@@ -1,0 +1,15 @@
+# Gemini / Antigravity specialized files
+.gemini/
+.gemini/*
+**/.gemini/**
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/

@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
   "name": "ARM Video Player Pro",
-  "version": "0.2.0",
-  "description": "Side Panel型の高機能プレイヤー",
-  "permissions": ["sidePanel"],
-  "side_panel": {
-    "default_path": "index.html"
-  },
+  "version": "0.3.0",
+  "description": "専用タブで動作する高機能ビデオプレイヤー",
+  "permissions": [],
   "action": {
-    "default_title": "プレイヤーを開く"
+    "default_title": "Video Player Pro を開く"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
